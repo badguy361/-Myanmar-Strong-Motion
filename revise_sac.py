@@ -34,6 +34,7 @@ os.putenv("SAC_DISPLAY_COPYRIGHT","0")
 # sac1 = SACTrace.read("MM_HKA_HNE_20160517170517_5182998_RespRemoved.sac")
 # print(sac1.t3)
 
+
 year = "2016"
 mon = "05"
 num = 1
