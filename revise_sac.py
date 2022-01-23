@@ -60,8 +60,9 @@ for id,i in enumerate(file_name[num-1::]):
     os.chdir(f"{sac_path}")
     str1 = '_'
     read_file_name = i
-    P_arrive_tmp = catlog[catlog["file_name"].isin([i])]["P_arrive"].values[0]
-    S_arrive_tmp = catlog[catlog["file_name"].isin([i])]["S_arrive"].values[0]
+    P_arrive_tmp = 20
+    S_arrive_tmp = catlog[catlog["file_name"].isin([i])]["iasp91_S_arrival"].values[0]-\
+                catlog[catlog["file_name"].isin([i])]["iasp91_P_arrival"].values[0]+20
     P_arrive = 20
     S_arrive = 20 + float(S_arrive_tmp) - float(P_arrive_tmp)
     Dist = round(catlog[catlog["file_name"].isin([i])]["dist_sor"].values[0],2)
