@@ -4,8 +4,6 @@ MM_output/
 __pycache__/
 CWB_output/
 .ipynb_checkpoints/
-merge_event _ eq.xlsx
-merge_event_eq.csv
-python picking.odp
-python sac.odp
-get_travaltime.odp
+*.xlsx
+*.csv
+*.odp
