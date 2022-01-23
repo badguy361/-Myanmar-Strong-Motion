@@ -68,70 +68,70 @@ try:
         s += "q \n"
         subprocess.Popen(['sac'], stdin=subprocess.PIPE).communicate(s.encode()) # show the interactivate window
 
-#         print("Accept [Y/y] or Accpet but Z [Z/z] or Reject [Others]?")
-#         check = input()
-#         if check=="Y" or check=="y": 
-#             print(f"Accept!! copy! {check}")
-#             result[f"{index}"] = [read_file_name,"y"]
+        print("Accept [Y/y] or Accpet but Z [Z/z] or Reject [Others]?")
+        check = input()
+        if check=="Y" or check=="y": 
+            print(f"Accept!! copy! {check}")
+            result[f"{index}"] = [read_file_name,"y"]
 
-#             sac1 = SACTrace.read(f"{read_file_name}")
-#             sac2 = SACTrace.read(f"{read_file_name}")
-#             sacZ = SACTrace.read(f"{read_file_name}")
-#             zory = "y"
-#             # print(type(sac1.data[1]))
-#             # print(sac1.reftime)
+            sac1 = SACTrace.read(f"{read_file_name}")
+            sac2 = SACTrace.read(f"{read_file_name}")
+            sacZ = SACTrace.read(f"{read_file_name}")
+            zory = "y"
+            # print(type(sac1.data[1]))
+            # print(sac1.reftime)
 
-#             os.chdir(f"{asc_path}")
-#             data = sac2asc(sacZ,sac1,sac2,zory)
-#             data.__call__()
-#             os.rename(f'{asc_path}data.asc', f'{asc_path}{read_file_name}.asc')
+            os.chdir(f"{asc_path}")
+            data = sac2asc(sacZ,sac1,sac2,zory)
+            data.__call__()
+            os.rename(f'{asc_path}data.asc', f'{asc_path}{read_file_name}.asc')
 
-#         elif check=="Z" or check=="z":
-#             print(f"Accept but Z problem!! copy! {check}")
-#             result[f"{index}"] = [read_file_name,"z"]
+        elif check=="Z" or check=="z":
+            print(f"Accept but Z problem!! copy! {check}")
+            result[f"{index}"] = [read_file_name,"z"]
 
-#             sac1 = SACTrace.read(f"{read_file_name}")
-#             sac2 = SACTrace.read(f"{read_file_name}")
-#             sacZ = SACTrace.read(f"{read_file_name}")
-#             zory = "z"
-#             # print(type(sac1.data[1]))
-#             # print(sac1.reftime)
+            sac1 = SACTrace.read(f"{read_file_name}")
+            sac2 = SACTrace.read(f"{read_file_name}")
+            sacZ = SACTrace.read(f"{read_file_name}")
+            zory = "z"
+            # print(type(sac1.data[1]))
+            # print(sac1.reftime)
             
-#             os.chdir(f"{asc_path}")
-#             data = sac2asc(sacZ,sac1,sac2,zory)
-#             data.__call__()
-#             os.rename(f'{asc_path}data.asc', f'{asc_path}{read_file_name}.asc')
+            os.chdir(f"{asc_path}")
+            data = sac2asc(sacZ,sac1,sac2,zory)
+            data.__call__()
+            os.rename(f'{asc_path}data.asc', f'{asc_path}{read_file_name}.asc')
 
-#         elif check=="1":
-#             print(f"1 problem!!!")
-#             result[f"{index}"] = [read_file_name,"1"]
-#         elif check=="2":
-#             print(f"2 problem!!!")
-#             result[f"{index}"] = [read_file_name,"2"]
-#         elif check=="3":
-#             print(f"3 problem!!!")
-#             result[f"{index}"] = [read_file_name,"3"]
-#         elif check=="4":
-#             print(f"4 problem!!!")
-#             result[f"{index}"] = [read_file_name,"4"]
-#         elif check=="5":
-#             print(f"5 problem!!!")
-#             result[f"{index}"] = [read_file_name,"5"]
-#         else:
-#             print("NO DEFINE!!!")
-#             result[f"{index}"] = [read_file_name,"NO DEFINE"]
+        elif check=="1":
+            print(f"1 problem!!!")
+            result[f"{index}"] = [read_file_name,"1"]
+        elif check=="2":
+            print(f"2 problem!!!")
+            result[f"{index}"] = [read_file_name,"2"]
+        elif check=="3":
+            print(f"3 problem!!!")
+            result[f"{index}"] = [read_file_name,"3"]
+        elif check=="4":
+            print(f"4 problem!!!")
+            result[f"{index}"] = [read_file_name,"4"]
+        elif check=="5":
+            print(f"5 problem!!!")
+            result[f"{index}"] = [read_file_name,"5"]
+        else:
+            print("NO DEFINE!!!")
+            result[f"{index}"] = [read_file_name,"NO DEFINE"]
 
-#         index+=1
+        index+=1
  
 finally:
     os.chdir(asc_path)
-#     df = pd.DataFrame.from_dict(result,orient='index')
-#     df.to_csv("result.csv",header=False,index=True,mode='a') 
-#     df = pd.read_csv("result.csv",header=None)
-#     df = df.drop_duplicates(subset=[0],keep='last', inplace=False) # 保留最後的定義 
-#     df = df.sort_values(by=[0],ignore_index = True) # 將資料做排序
-#     df.to_csv("result.csv",header=False,index=False,mode='w')
-#     print("finish output!!")
+    df = pd.DataFrame.from_dict(result,orient='index')
+    df.to_csv("result.csv",header=False,index=True,mode='a') 
+    df = pd.read_csv("result.csv",header=None)
+    df = df.drop_duplicates(subset=[0],keep='last', inplace=False) # 保留最後的定義 
+    df = df.sort_values(by=[0],ignore_index = True) # 將資料做排序
+    df.to_csv("result.csv",header=False,index=False,mode='w')
+    print("finish output!!")
 
 # ############################# 清理用不到的asc #########################################################
 
