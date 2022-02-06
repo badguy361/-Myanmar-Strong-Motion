@@ -47,7 +47,7 @@ class sac2asc:
                 t = (i-1)*self.dt1
                 if t<=self.t3-self.b and t>=self.t4-self.b:
                     file.write(" ")
-                    file.write(str(round(t,1)))
+                    file.write(str(round(t,4)))
                     file.write("   ")
                     file.write(str(round(self.yz[i],4)))
                     file.write("   ")
@@ -55,5 +55,3 @@ class sac2asc:
                     file.write("   ")
                     file.write(str(round(self.y2[i],4)))
                     file.write("\n")
-    def prin(self):
-        print(self.Parr,"666666666666666666666666666666")

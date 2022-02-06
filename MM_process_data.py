@@ -84,7 +84,6 @@ try:
             os.chdir(f"{asc_path}")
             data = sac2asc(sacZ,sac1,sac2,zory)
             data.__call__()
-            data.prin()
             os.rename(f'{asc_path}data.asc', f'{asc_path}{read_file_name}.asc')
 
         elif check=="Z" or check=="z":
