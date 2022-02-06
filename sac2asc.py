@@ -32,7 +32,7 @@ class sac2asc:
             self.y2[i]=self.y2[i]-self.m2 # normalize
             
     def __call__(self):
-        with open("data.asc","w") as file: # !name
+        with open("data.asc","w") as file: # !namex
             file.write(" ")
             file.write(str(round(self.Parr,4)))
             file.write("\t")
@@ -55,4 +55,5 @@ class sac2asc:
                     file.write("   ")
                     file.write(str(round(self.y2[i],4)))
                     file.write("\n")
-        
+    def prin(self):
+        print(self.Parr,"666666666666666666666666666666")

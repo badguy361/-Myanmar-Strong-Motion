@@ -38,8 +38,11 @@ catlog = pd.read_csv("/home/joey/緬甸BH_ubuntu/merge_event_eq.csv")
 ################################# save iasp91 #################################
 
 #抓取events的初始設定
-t1 = UTCDateTime("2016-05-01T00:00:00")
-t2 = UTCDateTime("2016-06-01T00:00:00")
+year=2016
+start_mon="08"
+end_mon="09"
+t1 = UTCDateTime(f"2016-{start_mon}-01T00:00:00")
+t2 = UTCDateTime(f"2016-{end_mon}-01T00:00:00")
 minlat = 10
 maxlat = 30
 minlng = 90
@@ -52,11 +55,11 @@ client = Client("IRIS")
                     (requests.exceptions.Timeout,
                     requests.exceptions.ConnectionError))
 def donwloadWaveform(p_arrival,s_arrival,sta):
-    return client.get_waveforms("MM", f"{sta}","*", "HN*", p_arrival-20, s_arrival+120,attach_response=True)
+    return client.get_waveforms("MM", f"{sta}","*", "HN*", p_arrival-50, s_arrival+300,attach_response=True)
 # p_arrival-20 s_arrival+120
 
 
-for i in tqdm(range(44)):
+for i in tqdm(range(178,179)):
     p_arrival = catlog["iasp91_P_arrival"][i] 
     s_arrival = catlog["iasp91_S_arrival"][i] 
     newfile_E = catlog["file_name"][i]
@@ -67,9 +70,9 @@ for i in tqdm(range(44)):
     # print(p_arrival,s_arrnnival,newfile)
     st = donwloadWaveform(sta_get_time+p_arrival,sta_get_time+s_arrival,sta)
     # st.plot()
-    st[0].write('dataset/MM_mseed/MM_new_events_20160101-20211026/2016/05_new/'+newfile_E)
-    st[1].write('dataset/MM_mseed/MM_new_events_20160101-20211026/2016/05_new/'+newfile_N)
-    st[2].write('dataset/MM_mseed/MM_new_events_20160101-20211026/2016/05_new/'+newfile_Z)
+    st[0].write(f'dataset/MM_mseed/MM_new_events_20160101-20211026/2016/{start_mon}/'+newfile_E)
+    st[1].write(f'dataset/MM_mseed/MM_new_events_20160101-20211026/2016/{start_mon}/'+newfile_N)
+    st[2].write(f'dataset/MM_mseed/MM_new_events_20160101-20211026/2016/{start_mon}/'+newfile_Z)
   
 
 ############################ test ################################

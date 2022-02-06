@@ -3,9 +3,9 @@ import os
 import glob
 import pandas as pd
 import subprocess
-os.chdir(f"/home/joey/緬甸BH_ubuntu/dataset/MM_2016-2021/2016/05")
-catlog = pd.read_csv("/home/joey/緬甸BH_ubuntu/merge_event_eq.csv")
-os.putenv("SAC_DISPLAY_COPYRIGHT","0")
+# os.chdir(f"/home/joey/緬甸BH_ubuntu/dataset/MM_2016-2021/2016/08")
+# catlog = pd.read_csv("/home/joey/緬甸BH_ubuntu/merge_event_eq.csv")
+
         
 # sacfile = glob.glob("*")
 # for i in sacfile:
@@ -36,7 +36,7 @@ os.putenv("SAC_DISPLAY_COPYRIGHT","0")
 
 
 year = "2016"
-mon = "05"
+mon = "08"
 num = 1
 sac_path = f"/home/joey/緬甸BH_ubuntu/dataset/MM_2016-2021/{year}/{mon}/"
 asc_year_path = f"/home/joey/緬甸BH_ubuntu/MM_output/{year}_output"
@@ -47,6 +47,7 @@ if not os.path.isdir(asc_path):
     os.mkdir(asc_path)
 
 catlog = pd.read_csv("/home/joey/緬甸BH_ubuntu/merge_event_eq.csv")
+os.putenv("SAC_DISPLAY_COPYRIGHT","0")
 
 os.chdir(f"{sac_path}")
 file_name = glob.glob("*HNE*.sac")
@@ -61,11 +62,11 @@ for id,i in enumerate(file_name[num-1::]):
     os.chdir(f"{sac_path}")
     str1 = '_'
     read_file_name = i
-    P_arrive_tmp = 20
+    P_arrive_tmp = 50
     S_arrive_tmp = catlog[catlog["file_name"].isin([i])]["iasp91_S_arrival"].values[0]-\
-                catlog[catlog["file_name"].isin([i])]["iasp91_P_arrival"].values[0]+20
-    P_arrive = 20
-    S_arrive = 20 + float(S_arrive_tmp) - float(P_arrive_tmp)
+                catlog[catlog["file_name"].isin([i])]["iasp91_P_arrival"].values[0]+50
+    P_arrive = 50
+    S_arrive = float(S_arrive_tmp)
     Dist = round(catlog[catlog["file_name"].isin([i])]["dist_sor"].values[0],2)
     Mw = catlog[catlog["file_name"].isin([i])]["Mw"].values[0]
     # print("Dist:",Dist)
