@@ -12,10 +12,10 @@ from sac2asc import sac2asc
 from obspy.io.sac import SACTrace
 
 
-year = "2016"
-mon = "08"
+year = "2017"
+mon = "11"
 num = 1
-sac_path = f"/home/joey/緬甸BH_ubuntu/dataset/MM_2016-2021/{year}/{mon}/"
+sac_path = f"/home/joey/緬甸BH_ubuntu/dataset/MM_new_events_20160101-20211026/{year}/{mon}/"
 asc_year_path = f"/home/joey/緬甸BH_ubuntu/MM_output/{year}_output"
 asc_path = f"/home/joey/緬甸BH_ubuntu/MM_output/{year}_output/{mon}/"
 if not os.path.isdir(asc_year_path):
