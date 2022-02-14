@@ -1,46 +1,25 @@
 from obspy.clients.fdsn import Client
 from obspy.core import UTCDateTime
 from obspy.geodetics.base import gps2dist_azimuth, kilometer2degrees
-from obspy.taup import TauPyModel
-import matplotlib.pyplot as plt
 import pandas as pd
 from tqdm import tqdm
-import glob 
 from obspy import read
 from obspy import UTCDateTime
 import backoff
 import requests
-import re
+import os
 
 catlog = pd.read_csv("/home/joey/緬甸BH_ubuntu/merge_event_eq.csv")
 
-################################# save iasp91 #################################
-# iasp91_P_arrival = []
-# iasp91_S_arrival = []
-# for i in tqdm(range(catlog.shape[0])):
-#     try:
-#         model = TauPyModel(model='iasp91') #jb pwdk can run 
-#         dist = kilometer2degrees(catlog["dist_surface"][i]) #55 #675 #special:543 
-#         depth = catlog["origins.depth"][i]/1000 #83 #55.15 #special:20 
-#         arrivals = model.get_travel_times\
-#             (source_depth_in_km=depth, distance_in_degree=dist,\
-#             phase_list=["P","S",'p','s'])
-#         iasp91_P_arrival.append(arrivals[0].time)
-#         iasp91_S_arrival.append(arrivals[-1].time)
-#     except:
-#         iasp91_P_arrival.append("NA")
-#         iasp91_S_arrival.append("NA")
-        
-# catlog["iasp91_P_arrival"] = iasp91_P_arrival
-# catlog["iasp91_S_arrival"] = iasp91_S_arrival
-# catlog.to_csv("merge_event_eq.csv",index=False,mode='w')
-
-################################# save iasp91 #################################
-
-#抓取events的初始設定
-year=2016
-start_mon="08"
-end_mon="09"
+# TODO
+# 抓取events的初始設定
+year=2017
+start_mon="01"
+end_mon="12"
+for mon in ["01","02","03","04","05","06","07","08","09","10","11","12"]:
+    sac_path = f"/home/joey/緬甸BH_ubuntu/dataset/MM_new_events_20160101-20211026/{year}/{mon}/"
+    if not os.path.isdir(sac_path):
+        os.mkdir(sac_path)
 t1 = UTCDateTime(f"2016-{start_mon}-01T00:00:00")
 t2 = UTCDateTime(f"2016-{end_mon}-01T00:00:00")
 minlat = 10
@@ -59,7 +38,7 @@ def donwloadWaveform(p_arrival,s_arrival,sta):
 # p_arrival-20 s_arrival+120
 
 
-for i in tqdm(range(178,179)):
+for i in tqdm(range(465,1077)):
     p_arrival = catlog["iasp91_P_arrival"][i] 
     s_arrival = catlog["iasp91_S_arrival"][i] 
     newfile_E = catlog["file_name"][i]
@@ -70,73 +49,7 @@ for i in tqdm(range(178,179)):
     # print(p_arrival,s_arrnnival,newfile)
     st = donwloadWaveform(sta_get_time+p_arrival,sta_get_time+s_arrival,sta)
     # st.plot()
-    st[0].write(f'dataset/MM_mseed/MM_new_events_20160101-20211026/2016/{start_mon}/'+newfile_E)
-    st[1].write(f'dataset/MM_mseed/MM_new_events_20160101-20211026/2016/{start_mon}/'+newfile_N)
-    st[2].write(f'dataset/MM_mseed/MM_new_events_20160101-20211026/2016/{start_mon}/'+newfile_Z)
+    st[0].write(f'dataset/MM_new_events_20160101-20211026/{year}/{start_mon}/'+newfile_E)
+    st[1].write(f'dataset/MM_new_events_20160101-20211026/{year}/{start_mon}/'+newfile_N)
+    st[2].write(f'dataset/MM_new_events_20160101-20211026/{year}/{start_mon}/'+newfile_Z)
   
-
-############################ test ################################
-# # first
-# model = TauPyModel(model='iasp91') #jb pwdk can run 
-# dist = kilometer2degrees(55) #55 #675 #special:543 
-# depth = 83 #83 #55.15 #special:20 
-# arrivals = model.get_travel_times\
-#     (source_depth_in_km=depth, distance_in_degree=dist,\
-#     phase_list=["P","S",'p','s'])
-# print(arrivals[0].time)
-# print(arrivals[-1].time)
-# print(arrivals)
-
-# client = Client("IRIS")
-# t1 = UTCDateTime("2020-05-05T22:15:04.088000") # 2020-05-05T22:15:04.088000 # 2020-05-25T14:42:17.178000
-# t2 = t1 +360
-# st = client.get_waveforms("MM", "NGU", "*", "HNE", t1, t2,attach_response=True)
-#     #NGU # KTN
-# st.plot()
-# plt.plot(st[0].times(),st[0].data)
-# plt.plot([arrivals[0].time, arrivals[0].time], \
-#     [-23100, -22350],color="red",linestyle= '--',\
-#     label="iasp91") #23100,22350
-# plt.plot([arrivals[-1].time, arrivals[-1].time], \
-#     [-23100, -22350],color="red",linestyle= '--')
-# plt.plot([22.25, 22.25], \
-#     [-23100, -22350],color="black",linestyle= '--',\
-#     label="ori") #22.25 #150.6
-# plt.plot([33.3, 33.3],\
-#     [-23100, -22350],color="black",linestyle= '--')
-#     #33.3 #226
-# plt.legend()
-
-
-# # second
-# model = TauPyModel(model='iasp91') #jb pwdk can run 
-# dist = kilometer2degrees(675) #55 #675 #special:543 
-# depth = 55.15 #83 #55.15 #special:20 
-# arrivals = model.get_travel_times\
-#     (source_depth_in_km=depth, distance_in_degree=dist,\
-#     phase_list=["P","S",'p','s'])
-# print(arrivals[0].time)
-# print(arrivals[-1].time)
-# print(arrivals)
-
-# client = Client("IRIS")
-# t1 = UTCDateTime("2020-05-25T14:42:17.178000") # 2020-05-05T22:15:04.088000 # 2020-05-25T14:42:17.178000
-# t2 = t1 +360
-# st = client.get_waveforms("MM", "KTN", "*", "HNE", t1, t2,attach_response=True)
-#     #NGU # KTN
-# st.plot()
-# plt.plot(st[0].times(),st[0].data)
-# plt.plot([arrivals[0].time, arrivals[0].time], \
-#     [-49000, -53000],color="red",linestyle= '--',\
-#     label="iasp91") #23100,22350
-# plt.plot([arrivals[-1].time, arrivals[-1].time], \
-#     [-49000, -53000],color="red",linestyle= '--')
-# plt.plot([150.6, 150.6], \
-#     [-49000, -53000],color="black",linestyle= '--',\
-#     label="ori") #22.25 #150.6 
-# plt.plot([226, 226],\
-#     [-49000, -53000],color="black",linestyle= '--')
-#     #33.3 #226
-# plt.legend()
-
-############################ test ################################

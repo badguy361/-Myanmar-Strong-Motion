@@ -9,10 +9,10 @@ sta = []
 name = []
 year = ["2016","2017","2018","2019","2020"]
 for z in year:
-    os.chdir(f"/home/joey/緬甸BH_ubuntu/MM_events_20160101-20211023/MM_{z}_events_HN/")
+    os.chdir(f"/home/joey/緬甸BH_ubuntu/MM_events_20160101-20211023/MM_{z}_events_HN/") # total sac file
     sacfile = glob.glob("*HNE*")
     for i in sacfile:
-        tmp = re.findall(pattern,i)
+        tmp = re.findall(pattern,i) # station_name
         sac1 = SACTrace.read(i)
         time.append(sac1.reftime)
         sta.append(tmp[1])

@@ -41,13 +41,8 @@ try:
         read_file_name = i
         print(id,i)
         # P_arrive = catlog[catlog["file_name"].isin([i])]["P_arrive"].values[0]
-        # S_arrive = catlog[catlog["file_name"].isin([i])]["S_arrive"].values[0]
         Dist = round(catlog[catlog["file_name"].isin([i])]["dist_sor"].values[0],2)
         Mw = catlog[catlog["file_name"].isin([i])]["Mw"].values[0]
-        # print("Dist:",Dist)
-        # print("Mw:",Mw)
-        # print("P_arrive:",P_arrive)
-        # print("S_arrive:",S_arrive)
         print(f"{i} {index} / {len(file_name)}")
         HNE = i.split("_")[0]+"_"+i.split("_")[1]\
                 +"_"+"HNE"+"_"+i.split("_")[3]+"_"+\
@@ -179,47 +174,4 @@ finally:
 #     plt.subplot(313)  
 #     plt.plot(t,com_2)
 
-################################# get waveforms ####################################################
 
-# client = Client("IRIS")
-# t1 = UTCDateTime("2016-10-27T06:30:00.000")
-# t2 = t1+5
-# st = client.get_waveforms("MM", "HKA", "*", "HN*", t1, t2)
-# print(st)
-# print(st[0].stats.station)  
-
-# inventory = client.get_stations(network="MM", station=st[0].stats.station,
-#                                 starttime=t1,
-#                                 endtime=t2)
-# print(inventory[0][0].longitude)  
-# print(inventory[0][0].latitude) 
-
-################################## get events #####################################################
-
-# t1 = UTCDateTime("2021-01-02T00:00:00")
-# tt2 = UTCDateTime("2021-03-10T00:00:00")
-# minlat = 10
-# maxlat = 30
-# minlng = 90
-# maxlng = 102
-# counts = 0
-# client = Client("IRIS")
-
-# #抓地震事件
-# cats = client.get_events(starttime=t1, endtime=tt2, minmagnitude=4, minlatitude=minlat, maxlatitude=maxlat, minlongitude=minlng, maxlongitude=maxlng)
-
-# for i in cats[0]:
-#     print(i)
-
-################################# read mseed ######################################################
-
-# import glob
-# from obspy.core import read
-# for file in glob.glob('*.mseed'):
-#     st = read(file)
-#     for i in range(len(st)):
-#         tr = st[i]
-#         msg = "%s converted to %s.%s.%s.sac" % (str(file), tr.stats.station, tr.stats.channel, str(file)[9:18])
-#         fname = "%s.%s.%s.sac" % (tr.stats.station, tr.stats.channel, str(file)[9:18])
-#         tr.write(fname, format="SAC")
-#         print(msg)

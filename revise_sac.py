@@ -3,37 +3,6 @@ import os
 import glob
 import pandas as pd
 import subprocess
-# os.chdir(f"/home/joey/緬甸BH_ubuntu/dataset/MM_2016-2021/2016/08")
-# catlog = pd.read_csv("/home/joey/緬甸BH_ubuntu/merge_event_eq.csv")
-
-        
-# sacfile = glob.glob("*")
-# for i in sacfile:
-#     if i == 'MM_HKA_HNE_20160519231024_5183203_RespRemoved.sac':
-#         P_arrive = catlog[catlog["file_name"].isin([i])]["P_arrive"].values[0]
-#         S_arrive = catlog[catlog["file_name"].isin([i])]["S_arrive"].values[0]
-#         print("P_arrive:",P_arrive)
-#         print("S_arrive:",S_arrive)
-#         s = f"r {i} \n"
-#         s += f"ch t1 {P_arrive} t2 {S_arrive}\n"
-#         s += "qdp of \n"
-#         s += "p1 \n"
-#         s += "title DIST=200_ML=30 Location BOTTOM size large \n"
-#         s += "ppk m \n"
-#         s += "w over \n"
-#         s += "q \n"
-#         subprocess.Popen(['sac'], stdin=subprocess.PIPE).communicate(s.encode())
-
-# sac1 = SACTrace.read('MM_HKA_HNE_20160519231024_5183203_RespRemoved.sac')
-# sac1.t1 = catlog[catlog["file_name"].isin([i])]["P_arrive"].values[0]
-# sac1.t2 = catlog[catlog["file_name"].isin([i])]["S_arrive"].values[0]
-# sac1.dist = 200 
-# sac1.mw = 5 
-
-# # solve autopick: http://geophysics.eas.gatech.edu/classes/SAC/
-# sac1 = SACTrace.read("MM_HKA_HNE_20160517170517_5182998_RespRemoved.sac")
-# print(sac1.t3)
-
 
 year = "2016"
 mon = "08"
@@ -69,10 +38,6 @@ for id,i in enumerate(file_name[num-1::]):
     S_arrive = float(S_arrive_tmp)
     Dist = round(catlog[catlog["file_name"].isin([i])]["dist_sor"].values[0],2)
     Mw = catlog[catlog["file_name"].isin([i])]["Mw"].values[0]
-    # print("Dist:",Dist)
-    # print("Mw:",Mw)
-    # print("P_arrive:",P_arrive)
-    # print("S_arrive:",S_arrive)
     print(f"{i} {index} / {len(file_name)}")
     HNE = i.split("_")[0]+"_"+i.split("_")[1]\
             +"_"+"HNE"+"_"+i.split("_")[3]+"_"+\
@@ -94,3 +59,32 @@ for id,i in enumerate(file_name[num-1::]):
     s += "q \n"
     subprocess.Popen(['sac'], stdin=subprocess.PIPE).communicate(s.encode()) # show the interactivate window
     index+=1
+
+################################## other sac func. ##################################
+
+# sacfile = glob.glob("*")
+# for i in sacfile:
+#     if i == 'MM_HKA_HNE_20160519231024_5183203_RespRemoved.sac':
+#         P_arrive = catlog[catlog["file_name"].isin([i])]["P_arrive"].values[0]
+#         S_arrive = catlog[catlog["file_name"].isin([i])]["S_arrive"].values[0]
+#         print("P_arrive:",P_arrive)
+#         print("S_arrive:",S_arrive)
+#         s = f"r {i} \n"
+#         s += f"ch t1 {P_arrive} t2 {S_arrive}\n"
+#         s += "qdp of \n"
+#         s += "p1 \n"
+#         s += "title DIST=200_ML=30 Location BOTTOM size large \n"
+#         s += "ppk m \n"
+#         s += "w over \n"
+#         s += "q \n"
+#         subprocess.Popen(['sac'], stdin=subprocess.PIPE).communicate(s.encode())
+
+# sac1 = SACTrace.read('MM_HKA_HNE_20160519231024_5183203_RespRemoved.sac')
+# sac1.t1 = catlog[catlog["file_name"].isin([i])]["P_arrive"].values[0]
+# sac1.t2 = catlog[catlog["file_name"].isin([i])]["S_arrive"].values[0]
+# sac1.dist = 200 
+# sac1.mw = 5 
+
+# # solve autopick: http://geophysics.eas.gatech.edu/classes/SAC/
+# sac1 = SACTrace.read("MM_HKA_HNE_20160517170517_5182998_RespRemoved.sac")
+# print(sac1.t3)
