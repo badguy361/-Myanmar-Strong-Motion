@@ -3,7 +3,7 @@ import os
 import glob
 import pandas as pd
 import re
-pattern = "[a-zA-Z]+"
+pattern = "[a-zA-Z]+" 
 time = []
 sta = []
 name = []
