@@ -38,6 +38,10 @@ class sac2asc:
             file.write("\t")
             file.write(str(round(self.Sarr,4)))
             file.write("\t")
+            file.write(str(round(self.t4,4)))
+            file.write("\t")
+            file.write(str(round(self.t3,4)))
+            file.write("\t")
             if self.zory == "z":
                 file.write("9")
             elif self.zory == "y":

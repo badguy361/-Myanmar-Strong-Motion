@@ -68,10 +68,9 @@ try:
         if check=="Y" or check=="y": 
             print(f"Accept!! copy! {check}")
             result[f"{index}"] = [read_file_name,"y"]
-
-            sac1 = SACTrace.read(f"{read_file_name}")
-            sac2 = SACTrace.read(f"{read_file_name}")
-            sacZ = SACTrace.read(f"{read_file_name}")
+            sac1 = SACTrace.read(f"{HNE}")
+            sac2 = SACTrace.read(f"{HNN}")
+            sacZ = SACTrace.read(f"{HNZ}")
             zory = "y"
             # print(type(sac1.data[1]))
             # print(sac1.reftime)
@@ -84,10 +83,9 @@ try:
         elif check=="Z" or check=="z":
             print(f"Accept but Z problem!! copy! {check}")
             result[f"{index}"] = [read_file_name,"z"]
-
-            sac1 = SACTrace.read(f"{read_file_name}")
-            sac2 = SACTrace.read(f"{read_file_name}")
-            sacZ = SACTrace.read(f"{read_file_name}")
+            sac1 = SACTrace.read(f"{HNE}")
+            sac2 = SACTrace.read(f"{HNN}")
+            sacZ = SACTrace.read(f"{HNZ}")
             zory = "z"
             # print(type(sac1.data[1]))
             # print(sac1.reftime)
@@ -158,7 +156,8 @@ finally:
 # com_z = []
 # com_1 = []
 # com_2 = []
-# with open("asc_path/202003150152_SNS_15150152.P20.asc","r") as file:
+# with open("/home/joey/緬甸BH_ubuntu/MM_output/2017_output/11/MM_MDY_HNE_20171104202936_10558792_RespRemoved.sac.asc","r") \
+#         as file:
 #     for index,line in enumerate(file):
 #         if index>0:
 #             print(index,line)
