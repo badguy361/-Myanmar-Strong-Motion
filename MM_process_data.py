@@ -30,7 +30,7 @@ file_name = glob.glob("*HNE*.sac")
 def TakeTime(file):
     return int(file.split("_")[3])
 file_name.sort(key=TakeTime)
-
+ 
 result = {}
 index = num
 try:
