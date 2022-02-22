@@ -113,7 +113,7 @@ try:
         else:
             print("NO DEFINE!!!")
             result[f"{index}"] = [read_file_name,"NO DEFINE"]
- 
+  
         index+=1
  
 finally:
