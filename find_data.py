@@ -57,7 +57,7 @@ for i in tqdm([981,996,1011,1044]):# merge_event_eq.csv -> event_id
         st[2].write(f'dataset/MM_new_events_20160101-20211026/{year}/12/'+newfile_Z)  
     except IncompleteRead:
         # Oh well, reconnect and keep trucking
-        continue
+        continue 
 
 # import shutil
 # import glob
