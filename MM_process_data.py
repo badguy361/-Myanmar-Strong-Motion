@@ -116,7 +116,7 @@ try:
   
         index+=1
  
-finally:
+finally: 
     os.chdir(asc_path)
     df = pd.DataFrame.from_dict(result,orient='index')
     df.to_csv("result.csv",header=False,index=True,mode='a') 
