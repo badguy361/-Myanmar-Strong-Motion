@@ -26,16 +26,18 @@ file_name.sort(key=TakeTime)
 
 result = {}
 index = num
+# 以上註解參考MM_process_data.py
 
 for id,i in enumerate(file_name[num-1::]):
     os.chdir(f"{sac_path}")
     str1 = '_'
     read_file_name = i
-    P_arrive_tmp = 50
-    S_arrive_tmp = catlog[catlog["file_name"].isin([i])]["iasp91_S_arrival"].values[0]-\
-                catlog[catlog["file_name"].isin([i])]["iasp91_P_arrival"].values[0]+50
+    # 取得P波S波到時
     P_arrive = 50
-    S_arrive = float(S_arrive_tmp)
+    S_arrive = float(catlog[catlog["file_name"].isin([i])]["iasp91_S_arrival"].values[0]-\
+                catlog[catlog["file_name"].isin([i])]["iasp91_P_arrival"].values[0]+50)
+
+    # 取得距離和震矩規模
     Dist = round(catlog[catlog["file_name"].isin([i])]["dist_sor"].values[0],2)
     Mw = catlog[catlog["file_name"].isin([i])]["Mw"].values[0]
     print(f"{i} {index} / {len(file_name)}")
@@ -51,8 +53,10 @@ for id,i in enumerate(file_name[num-1::]):
     s = f"r {HNZ} \
         {HNE} \
         {HNN} \n"
+    # 改變t1(P_arrive)和t2(S_arrive)的資訊
     s += f"ch t1 {P_arrive} t2 {S_arrive} \n"
     s += "qdp of \n"
+    # 一定要下 才會出現t1 t2的線
     s += "p1 \n"
     s += f"title DIST={Dist}_Mw={Mw} Location BOTTOM size large \n"
     s += "w over \n"

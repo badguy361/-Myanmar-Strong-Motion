@@ -1,3 +1,4 @@
+# 導入模組
 import os
 import glob
 import pandas as pd
@@ -7,26 +8,33 @@ from obspy import read
 from obspy.clients.fdsn import Client
 from obspy import UTCDateTime
 from matplotlib import pyplot as plt
-import re
 from sac2asc import sac2asc
 from obspy.io.sac import SACTrace
 
-
-year = "2017"
+# 輸入參數＆資料和輸出位置
+year = "2017" 
 mon = "11"
 num = 1
 sac_path = f"/home/joey/緬甸BH_ubuntu/dataset/MM_new_events_20160101-20211026/{year}/{mon}/"
 asc_year_path = f"/home/joey/緬甸BH_ubuntu/MM_output/{year}_output"
 asc_path = f"/home/joey/緬甸BH_ubuntu/MM_output/{year}_output/{mon}/"
+
+# 創建資料夾
 if not os.path.isdir(asc_year_path):
     os.mkdir(asc_year_path)
 if not os.path.isdir(asc_path):
     os.mkdir(asc_path)
 
+# 讀入event catalog
 catlog = pd.read_csv("/home/joey/緬甸BH_ubuntu/merge_event_eq.csv")
 
+# 改變當前路徑
 os.chdir(f"{sac_path}")
+
+# 讀入所有HNE的資料,主要是獲得檔名
 file_name = glob.glob("*HNE*.sac")
+
+# 確保檔案排序是依照年份排
 def TakeTime(file):
     return int(file.split("_")[3])
 file_name.sort(key=TakeTime)
@@ -34,16 +42,20 @@ file_name.sort(key=TakeTime)
 result = {}
 index = num
 try:
+    # 調用sac指令
     os.putenv("SAC_DISPLAY_COPYRIGHT","0")
+    # 主要迴圈（跑所有的HNE檔案）
     for id,i in enumerate(file_name[num-1::]):
+        # 改變當前路徑
         os.chdir(f"{sac_path}")
         str1 = '_'
         read_file_name = i
-        print(id,i)
-        # P_arrive = catlog[catlog["file_name"].isin([i])]["P_arrive"].values[0]
+        # print(id,i)
+        # 抓取距離和規模
         Dist = round(catlog[catlog["file_name"].isin([i])]["dist_sor"].values[0],2)
         Mw = catlog[catlog["file_name"].isin([i])]["Mw"].values[0]
         print(f"{i} {index} / {len(file_name)}")
+        # 取得HNE HNN HNZ檔名
         HNE = i.split("_")[0]+"_"+i.split("_")[1]\
                 +"_"+"HNE"+"_"+i.split("_")[3]+"_"+\
                 i.split("_")[4]+"_"+i.split("_")[5]
@@ -53,9 +65,12 @@ try:
         HNN = i.split("_")[0]+"_"+i.split("_")[1]\
                 +"_"+"HNN"+"_"+i.split("_")[3]+"_"+\
                 i.split("_")[4]+"_"+i.split("_")[5]
+        
+        # 讀取sac檔（sac的指令）
         s = f"r {HNZ} \
             {HNE} \
             {HNN} \n"
+        # 畫圖 ＆ 顯示資訊 + pick mode
         s += "qdp of \n"
         s += f"title DIST={Dist}_Mw={Mw} Location BOTTOM size large \n"
         s += "ppk m \n"
@@ -64,10 +79,13 @@ try:
         subprocess.Popen(['sac'], stdin=subprocess.PIPE).communicate(s.encode()) # show the interactivate window
 
         print("Accept [Y/y] or Accpet but Z [Z/z] or Reject [Others]?")
+        # 吃輸入的資訊(Y Z 1-5)
         check = input()
         if check=="Y" or check=="y": 
             print(f"Accept!! copy! {check}")
+            # 存取資訊
             result[f"{index}"] = [read_file_name,"y"]
+            # 讀檔（要丟到sac2asc中）
             sac1 = SACTrace.read(f"{HNE}")
             sac2 = SACTrace.read(f"{HNN}")
             sacZ = SACTrace.read(f"{HNZ}")
@@ -75,12 +93,15 @@ try:
             # print(type(sac1.data[1]))
             # print(sac1.reftime)
 
+            # 改變當前路徑
             os.chdir(f"{asc_path}")
+            # 轉出asc檔案
             data = sac2asc(sacZ,sac1,sac2,zory)
             data.__call__()
             os.rename(f'{asc_path}data.asc', f'{asc_path}{read_file_name}.asc')
 
         elif check=="Z" or check=="z":
+            # 同上
             print(f"Accept but Z problem!! copy! {check}")
             result[f"{index}"] = [read_file_name,"z"]
             sac1 = SACTrace.read(f"{HNE}")
@@ -95,6 +116,7 @@ try:
             data.__call__()
             os.rename(f'{asc_path}data.asc', f'{asc_path}{read_file_name}.asc')
 
+        # 當判定1-5也要存取輸出檔
         elif check=="1":
             print(f"1 problem!!!")
             result[f"{index}"] = [read_file_name,"1"]
@@ -113,16 +135,22 @@ try:
         else:
             print("NO DEFINE!!!")
             result[f"{index}"] = [read_file_name,"NO DEFINE"]
-  
+
+        # 一定要+1
         index+=1
  
-finally: 
+finally: # 確保臨時中斷也能輸出
     os.chdir(asc_path)
+    # 存取result檔案
     df = pd.DataFrame.from_dict(result,orient='index')
+    # 轉成csv並加在原有的後面
     df.to_csv("result.csv",header=False,index=True,mode='a') 
     df = pd.read_csv("result.csv",header=None)
-    df = df.drop_duplicates(subset=[0],keep='last', inplace=False) # 保留最後的定義 
-    df = df.sort_values(by=[0],ignore_index = True) # 將資料做排序
+    # 保留最後的定義(防呆設計)
+    df = df.drop_duplicates(subset=[0],keep='last', inplace=False)
+    # 將資料做排序(防呆設計)
+    df = df.sort_values(by=[0],ignore_index = True)
+    # 重新存一次csv檔案
     df.to_csv("result.csv",header=False,index=False,mode='w')
     print("finish output!!")
 
@@ -141,15 +169,6 @@ finally:
 # for index,i in enumerate(dir):
 #     if i not in y_data:
 #         print(i,"is not y or z. WARNING!!")
-
-# ############################# 最終輸出格式（看有沒有需要） #########################################################
-
-# tmp = []
-# df = pd.read_csv(f"{asc_path}result.csv",header=None)
-# for index,i in enumerate(df[0]):
-#     tmp.append(f"{mon}_{i}")
-# df[0] = tmp
-# df.to_csv("result_fin.csv",header=False,index=False,mode='w')
 
 # ################################ 畫asc #######################################################
 # t = []
@@ -173,4 +192,11 @@ finally:
 #     plt.subplot(313)  
 #     plt.plot(t,com_2)
 
+# ############################# 最終輸出格式（看有沒有需要） #########################################################
 
+# tmp = []
+# df = pd.read_csv(f"{asc_path}result.csv",header=None)
+# for index,i in enumerate(df[0]):
+#     tmp.append(f"{mon}_{i}")
+# df[0] = tmp
+# df.to_csv("result_fin.csv",header=False,index=False,mode='w')

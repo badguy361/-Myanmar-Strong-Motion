@@ -1,7 +1,7 @@
 # -Myanmar-Strong-Motion
 After using the obspy module to get Myanmar earthquake data, we can do a series of analysis
 
-MM_process_data.py: process the myanmar data(main code)
+# MM_process_data.py: process the myanmar data(main code)
 
 sac2asc.py: transfer sac file to asc file
 

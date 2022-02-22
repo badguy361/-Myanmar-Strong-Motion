@@ -7,27 +7,28 @@ import numpy as np
 
 catlog = pd.read_csv("/home/joey/緬甸BH_ubuntu/merge_event_eq.csv")
 
-# iasp91_P_arrival = []
-# iasp91_S_arrival = []
-# for i in tqdm(range(catlog.shape[0])):
-#     try:
-#         model = TauPyModel(model='iasp91') #jb pwdk can run 
-#         dist = kilometer2degrees(catlog["dist_surface"][i]) 
-#         depth = catlog["origins.depth"][i]/1000 
-#         arrivals = model.get_travel_times\
-#             (source_depth_in_km=depth, distance_in_degree=dist,\
-#             phase_list=["P","S",'p','s'])
-#         iasp91_P_arrival.append(arrivals[0].time)
-#         iasp91_S_arrival.append(arrivals[-1].time)
-#     except:
-#         iasp91_P_arrival.append("NA")
-#         iasp91_S_arrival.append("NA")
+################################# write iasp91 arrival time to csv #################################
+iasp91_P_arrival = []
+iasp91_S_arrival = []
+for i in tqdm(range(catlog.shape[0])):
+    try:
+        model = TauPyModel(model='iasp91') #jb pwdk can run 
+        dist = kilometer2degrees(catlog["dist_surface"][i]) 
+        depth = catlog["origins.depth"][i]/1000 
+        arrivals = model.get_travel_times\
+            (source_depth_in_km=depth, distance_in_degree=dist,\
+            phase_list=["P","S",'p','s'])
+        iasp91_P_arrival.append(arrivals[0].time)
+        iasp91_S_arrival.append(arrivals[-1].time)
+    except:
+        iasp91_P_arrival.append("NA")
+        iasp91_S_arrival.append("NA")
         
-# catlog["iasp91_P_arrival"] = iasp91_P_arrival
-# catlog["iasp91_S_arrival"] = iasp91_S_arrival
-# catlog.to_csv("merge_event_eq.csv",index=False,mode='w')
+catlog["iasp91_P_arrival"] = iasp91_P_arrival
+catlog["iasp91_S_arrival"] = iasp91_S_arrival
+catlog.to_csv("merge_event_eq.csv",index=False,mode='w')
 
-# write other model to csv
+################################# write other model to csv #################################
 models = ["ak135","iasp91","prem"]
 
 for mod in models:
@@ -51,7 +52,7 @@ for mod in models:
     catlog[f"{mod}_S_arrival"] = S_arrival
     catlog.to_csv("merge_event_eq.csv",index=False,mode='w')
 
-# check other model if they are different
+################################# check other model if they are different #################################
 
 model = TauPyModel(model="ak135") #jb pwdk can run 
 dist = kilometer2degrees(catlog["dist_surface"][1]) 
@@ -80,7 +81,7 @@ arrivals = model.get_travel_times\
 print("prem",arrivals[0].time)
 print("prem",arrivals[-1].time)
 
-# plot scatter
+################################# plot scatter #################################
 models = ["ak135","iasp91","prem"]
 catlog = pd.read_csv("/home/joey/緬甸BH_ubuntu/merge_event_eq.csv")
 dif_P_ak = abs(catlog[f"{models[1]}_P_arrival"] - catlog[f"{models[0]}_P_arrival"])

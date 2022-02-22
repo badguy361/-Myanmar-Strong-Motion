@@ -29,29 +29,32 @@ minlng = 90
 maxlng = 102
 client = Client("IRIS")
 
-#用@backoff抓執行過程中遇到的錯誤，避免遇到exception直接跳掉
-#以originTime下載波形
+# 用@backoff抓執行過程中遇到的錯誤，避免遇到exception直接跳掉
+# 以iasp91理論到時(p_arrival-50, s_arrival+300)載波形
 @backoff.on_exception(backoff.expo,
                     (requests.exceptions.Timeout,
                     requests.exceptions.ConnectionError))
 def donwloadWaveform(p_arrival,s_arrival,sta):
     return client.get_waveforms("MM", f"{sta}","*", "HN*", p_arrival-50, s_arrival+300,attach_response=True)
-# p_arrival-20 s_arrival+120
-
 
 
 for i in tqdm([981,996,1011,1044]):# merge_event_eq.csv -> event_id
     try:
         p_arrival = catlog["iasp91_P_arrival"][i] 
         s_arrival = catlog["iasp91_S_arrival"][i] 
+        # 改成三分量的檔名
         newfile_E = catlog["file_name"][i]
         newfile_N = newfile_E.replace("HNE","HNN")
         newfile_Z = newfile_E.replace("HNE","HNZ")
+        # 取得測站資訊
         sta = catlog["file_name"][i].split("_")[1]
-        sta_get_time = UTCDateTime(catlog["sta_get_time"][i])
+        # 取得發震時間
+        eq_time = UTCDateTime(catlog["sta_get_time"][i])
         # print(p_arrival,s_arrnnival,newfile)
-        st = donwloadWaveform(sta_get_time+p_arrival,sta_get_time+s_arrival,sta)
+        # 取得地震波形檔
+        st = donwloadWaveform(eq_time+p_arrival,eq_time+s_arrival,sta)
         # st.plot()
+        # 輸出地震sac檔案
         st[0].write(f'dataset/MM_new_events_20160101-20211026/{year}/12/'+newfile_E)
         st[1].write(f'dataset/MM_new_events_20160101-20211026/{year}/12/'+newfile_N)
         st[2].write(f'dataset/MM_new_events_20160101-20211026/{year}/12/'+newfile_Z)  
