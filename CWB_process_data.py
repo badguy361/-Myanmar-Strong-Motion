@@ -14,6 +14,7 @@ from obspy.io.sac import SACTrace
 year = "2020"
 mon = "03"
 num = 1
+a="apple"
 
 sac_path = f"/home/joey/緬甸BH_ubuntu/dataset/{year}/{mon}/"
 asc_path = f"/home/joey/緬甸BH_ubuntu/{year}_output/{mon}/"
