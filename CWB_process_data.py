@@ -19,6 +19,8 @@ sac_path = f"/home/joey/緬甸BH_ubuntu/dataset/{year}/{mon}/"
 asc_path = f"/home/joey/緬甸BH_ubuntu/{year}_output/{mon}/"
 
 
+
+
 os.chdir(f"{sac_path}")
 file_name = glob.glob("*H1.sac")
 file_name.sort()
