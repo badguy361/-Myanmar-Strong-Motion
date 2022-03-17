@@ -33,7 +33,7 @@ os.chdir(f"{sac_path}")
 
 # 讀入所有HNE的資料,主要是獲得檔名
 file_name = glob.glob("*HNE*.sac")
-1
+
 # 確保檔案排序是依照年份排
 def TakeTime(file):
     return int(file.split("_")[3]),file.split("_")[1]
