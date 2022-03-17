@@ -3,14 +3,14 @@
 
 # Datasets
 * event catalog.csv : obspy下載地震事件資料，但進行很多資料前處理，包括合併GCMT、吳老師地震資料，以及地震矩規模轉換，合併接收測站等等..如果需要這份catalog(2016-2021)，可以email: **t1616joy@yahoo.com.tw**
-![Imgur](https://i.imgur.com/G9RGTQa.png)
 
 * SAC檔 : obspy下載的地震資料，訂好年份、經緯(minlat = 10 maxlat = 30 minlng = 90maxlng = 102)，並用 **iasp91速度構造** 模型預測P、S波到時，再以P波到時前50秒S波到時後300秒作為地震事件window的大小。(詳見 **find_data.py**)
 
+![Imgur](https://i.imgur.com/vscBTzM.png)
 
 # Process (main code)
 設置好**SAC**及**catalog.csv**檔案位置，終端機執行 `python MM_process_data.py` 即可開始進行濾波，濾波方式就跟一般操作SAC下的ppk mode一模一樣。
-
+![Imgur](https://i.imgur.com/noT7zu7.png)
 # Important code
 
 
@@ -21,7 +21,7 @@
 
 
 * `get_iasp91.py` : 使用iasp91速度構造模型預測發震後的P波S波到時，並將此預測時間存到catalog.csv中方便後續調用。其中也包含使用不同的速度構造模型所試出的不同成果比較。
-
+![Imgur](https://i.imgur.com/M74afpj.png)
 
 * `find_data.py` : 取得地震波資料，取得標準為P波預測到時前50秒S波預測到時候300秒，做為一筆地震的資料(此標準是經過測試所選定，*避免因為地震距離過遠而使得地震波被切掉*)。
 
