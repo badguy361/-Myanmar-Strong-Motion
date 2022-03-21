@@ -1,0 +1,32 @@
+library(ggplot2)
+library(gcookbook)
+merge.MM.FF2_2016_2020 <- read.table(file="D:/½q¨lBH/merge_event_eq.csv", header = T,sep = ",", fill=TRUE)
+plot_rec <- merge.MM.FF2_2016_2020[c(827,832,834,828,829,842,841,847,845,871,869,865,868,867,866,873,877,882,892,906,912
+                                     ,921,924,919,920,923,944,948,950,951,949,945,946),1:44]
+
+range(merge.BH.FF2$dist_sor) #  5.141244 291.908025s
+range(merge.BH.FF2$Mw)  # 3.29 6.40
+#range(merge.BH.FF2$final.Dep) # 1.01 158.66
+
+## distance_Mw
+png("D:/½q¨lBH/2017_11_distance_Mw.png",width=900,height=750)
+ggplot(plot_rec, aes(dist_sor, Mw))+
+  geom_point(shape=1,size=5,color="blue")+
+  ggtitle("Distance vs Mw (2017_11)") + xlab("Distance (km)") + ylab("Mw")+
+  scale_x_continuous(limits=c(30,2000),trans='log2',breaks=(c(1,2,5,10,20,50,100,200,500,1000,2000))
+                     ,minor_breaks=c(seq(0.01,0.09,by=0.01),
+                      seq(0.1,0.9,by=0.1),seq(1,10,by=1),
+                      seq(10,100,by=10),seq(100,1000,by=100)))+
+  scale_y_continuous(limits=c(3,7),breaks=(c(3,4,5,6,7)))+
+  theme(panel.background=element_blank(),#¥h°£­I´º
+        panel.grid.major=element_line(colour='gray', size=0.8),
+        panel.grid.minor=element_line(colour='gray', size=0.8),
+        panel.border = element_rect(fill=NA,color="black", size=2, linetype="solid"),
+        plot.margin = margin(1,1,0.1,0.1, "cm"),
+        plot.title = element_text(hjust = 0.5,size=30),
+        axis.title.x=element_text(hjust = 0.5,size=30),
+        axis.title.y=element_text(hjust = 0.5,size=30),
+        axis.text = element_text(size=30),
+        
+  )
+dev.off()
