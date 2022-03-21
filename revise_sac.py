@@ -5,7 +5,7 @@ import pandas as pd
 import subprocess
 
 year = "2017"
-mon = "11"
+mon = "08"
 num = 1
 sac_path = f"/home/joey/緬甸BH_ubuntu/dataset/MM_new_events_20160101-20211026/{year}/{mon}/"
 asc_year_path = f"/home/joey/緬甸BH_ubuntu/MM_output/{year}_output"

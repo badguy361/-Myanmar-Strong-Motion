@@ -13,7 +13,7 @@ from obspy.io.sac import SACTrace
 
 # 輸入參數＆資料和輸出位置
 year = "2017" 
-mon = "11"
+mon = "08"
 num = 1
 sac_path = f"/home/joey/緬甸BH_ubuntu/dataset/MM_new_events_20160101-20211026/{year}/{mon}/"
 asc_year_path = f"/home/joey/緬甸BH_ubuntu/MM_output/{year}_output"
@@ -36,7 +36,7 @@ file_name = glob.glob("*HNE*.sac")
 
 # 確保檔案排序是依照年份排
 def TakeTime(file):
-    return int(file.split("_")[3])
+    return int(file.split("_")[3]),file.split("_")[1]
 file_name.sort(key=TakeTime)
  
 result = {}
