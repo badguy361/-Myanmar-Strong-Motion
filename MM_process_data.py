@@ -36,7 +36,7 @@ file_name = glob.glob("*HNE*.sac")
 
 # 確保檔案排序是依照年份排
 def TakeTime(file):
-    return int(file.split("_")[3]),file.split("_")[1]
+    return int(file.split("_")[3]),file.split("_")[1][0]
 file_name.sort(key=TakeTime)
  
 result = {}
@@ -78,63 +78,63 @@ try:
         s += "q \n"
         subprocess.Popen(['sac'], stdin=subprocess.PIPE).communicate(s.encode()) # show the interactivate window
 
-        print("Accept [Y/y] or Accpet but Z [Z/z] or Reject [Others]?")
-        # 吃輸入的資訊(Y Z 1-5)
-        check = input()
-        if check=="Y" or check=="y": 
-            print(f"Accept!! copy! {check}")
-            # 存取資訊
-            result[f"{index}"] = [read_file_name,"y"]
-            # 讀檔（要丟到sac2asc中）
-            sac1 = SACTrace.read(f"{HNE}")
-            sac2 = SACTrace.read(f"{HNN}")
-            sacZ = SACTrace.read(f"{HNZ}")
-            zory = "y"
-            # print(type(sac1.data[1]))
-            # print(sac1.reftime)
+        # print("Accept [Y/y] or Accpet but Z [Z/z] or Reject [Others]?")
+        # # 吃輸入的資訊(Y Z 1-5)
+        # check = input()
+        # if check=="Y" or check=="y": 
+        #     print(f"Accept!! copy! {check}")
+        #     # 存取資訊
+        #     result[f"{index}"] = [read_file_name,"y"]
+        #     # 讀檔（要丟到sac2asc中）
+        #     sac1 = SACTrace.read(f"{HNE}")
+        #     sac2 = SACTrace.read(f"{HNN}")
+        #     sacZ = SACTrace.read(f"{HNZ}")
+        #     zory = "y"
+        #     # print(type(sac1.data[1]))
+        #     # print(sac1.reftime)
 
-            # 改變當前路徑
-            os.chdir(f"{asc_path}")
-            # 轉出asc檔案
-            data = sac2asc(sacZ,sac1,sac2,zory)
-            data.__call__()
-            os.rename(f'{asc_path}data.asc', f'{asc_path}{read_file_name}.asc')
+        #     # 改變當前路徑
+        #     os.chdir(f"{asc_path}")
+        #     # 轉出asc檔案
+        #     data = sac2asc(sacZ,sac1,sac2,zory)
+        #     data.__call__()
+        #     os.rename(f'{asc_path}data.asc', f'{asc_path}{read_file_name}.asc')
 
-        elif check=="Z" or check=="z":
-            # 同上
-            print(f"Accept but Z problem!! copy! {check}")
-            result[f"{index}"] = [read_file_name,"z"]
-            sac1 = SACTrace.read(f"{HNE}")
-            sac2 = SACTrace.read(f"{HNN}")
-            sacZ = SACTrace.read(f"{HNZ}")
-            zory = "z"
-            # print(type(sac1.data[1]))
-            # print(sac1.reftime)
+        # elif check=="Z" or check=="z":
+        #     # 同上
+        #     print(f"Accept but Z problem!! copy! {check}")
+        #     result[f"{index}"] = [read_file_name,"z"]
+        #     sac1 = SACTrace.read(f"{HNE}")
+        #     sac2 = SACTrace.read(f"{HNN}")
+        #     sacZ = SACTrace.read(f"{HNZ}")
+        #     zory = "z"
+        #     # print(type(sac1.data[1]))
+        #     # print(sac1.reftime)
             
-            os.chdir(f"{asc_path}")
-            data = sac2asc(sacZ,sac1,sac2,zory)
-            data.__call__()
-            os.rename(f'{asc_path}data.asc', f'{asc_path}{read_file_name}.asc')
+        #     os.chdir(f"{asc_path}")
+        #     data = sac2asc(sacZ,sac1,sac2,zory)
+        #     data.__call__()
+        #     os.rename(f'{asc_path}data.asc', f'{asc_path}{read_file_name}.asc')
 
-        # 當判定1-5也要存取輸出檔
-        elif check=="1":
-            print(f"1 problem!!!")
-            result[f"{index}"] = [read_file_name,"1"]
-        elif check=="2":
-            print(f"2 problem!!!")
-            result[f"{index}"] = [read_file_name,"2"]
-        elif check=="3":
-            print(f"3 problem!!!")
-            result[f"{index}"] = [read_file_name,"3"]
-        elif check=="4":
-            print(f"4 problem!!!")
-            result[f"{index}"] = [read_file_name,"4"]
-        elif check=="5":
-            print(f"5 problem!!!")
-            result[f"{index}"] = [read_file_name,"5"]
-        else:
-            print("NO DEFINE!!!")
-            result[f"{index}"] = [read_file_name,"NO DEFINE"]
+        # # 當判定1-5也要存取輸出檔
+        # elif check=="1":
+        #     print(f"1 problem!!!")
+        #     result[f"{index}"] = [read_file_name,"1"]
+        # elif check=="2":
+        #     print(f"2 problem!!!")
+        #     result[f"{index}"] = [read_file_name,"2"]
+        # elif check=="3":
+        #     print(f"3 problem!!!")
+        #     result[f"{index}"] = [read_file_name,"3"]
+        # elif check=="4":
+        #     print(f"4 problem!!!")
+        #     result[f"{index}"] = [read_file_name,"4"]
+        # elif check=="5":
+        #     print(f"5 problem!!!")
+        #     result[f"{index}"] = [read_file_name,"5"]
+        # else:
+        #     print("NO DEFINE!!!")
+        #     result[f"{index}"] = [read_file_name,"NO DEFINE"]
 
         # 一定要+1
         index+=1
@@ -142,17 +142,17 @@ try:
 finally: # 確保臨時中斷也能輸出
     os.chdir(asc_path)
     # 存取result檔案
-    df = pd.DataFrame.from_dict(result,orient='index')
-    # 轉成csv並加在原有的後面
-    df.to_csv("result.csv",header=False,index=True,mode='a') 
-    df = pd.read_csv("result.csv",header=None)
-    # 保留最後的定義(防呆設計)
-    df = df.drop_duplicates(subset=[0],keep='last', inplace=False)
-    # 將資料做排序(防呆設計)
-    df = df.sort_values(by=[0],ignore_index = True)
-    # 重新存一次csv檔案
-    df.to_csv("result.csv",header=False,index=False,mode='w')
-    print("finish output!!")
+    # df = pd.DataFrame.from_dict(result,orient='index')
+    # # 轉成csv並加在原有的後面
+    # df.to_csv("result.csv",header=False,index=True,mode='a') 
+    # df = pd.read_csv("result.csv",header=None)
+    # # 保留最後的定義(防呆設計)
+    # df = df.drop_duplicates(subset=[0],keep='last', inplace=False)
+    # # 將資料做排序(防呆設計)
+    # df = df.sort_values(by=[0],ignore_index = True)
+    # # 重新存一次csv檔案
+    # df.to_csv("result.csv",header=False,index=False,mode='w')
+    # print("finish output!!")
 
 # ############################# 清理用不到的asc #########################################################
 
