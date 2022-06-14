@@ -11,15 +11,15 @@ import os
 from http.client import IncompleteRead
 import numpy as np
 
-catlog = pd.read_csv("/home/joey/緬甸BH_ubuntu/merge_event_eq.csv")
+catlog = pd.read_csv("/home/joey/緬甸/merge_event_eq(add_cut_2021).csv")
 
 # TODO
 # 抓取events的初始設定
-year=2016
+year=2021
 start_mon="01"
 end_mon="12"
 for mon in ["01","02","03","04","05","06","07","08","09","10","11","12"]:
-    sac_path = f"/home/joey/緬甸BH_ubuntu/dataset/MM_new_events_20160101-20211026/{year}/{mon}/"
+    sac_path = f"/home/joey/緬甸/dataset/MM_events_20160101-20211026/{year}/{mon}/"
     if not os.path.isdir(sac_path):
         os.mkdir(sac_path)
 # t1 = UTCDateTime(f"2016-{start_mon}-01T00:00:00")
@@ -39,7 +39,7 @@ def donwloadWaveform(p_arrival,s_arrival,sta):
     return client.get_waveforms("MM", f"{sta}","*", "HN*", p_arrival-50, s_arrival+300,attach_response=True)
 
 # list(np.arange(1077,2138))
-for i in tqdm([174,175,176,177,178]):# merge_event_eq.csv -> event_id
+for i in tqdm(range(4106,4107)):# merge_event_eq.csv -> event_id
     try:
         p_arrival = catlog["iasp91_P_arrival"][i] 
         s_arrival = catlog["iasp91_S_arrival"][i] 
@@ -56,10 +56,10 @@ for i in tqdm([174,175,176,177,178]):# merge_event_eq.csv -> event_id
         st = donwloadWaveform(eq_time+p_arrival,eq_time+s_arrival,sta)
         # st.plot()
         # 輸出地震sac檔案
-        st[0].write(f'dataset/MM_new_events_20160101-20211026/{year}/12/'+newfile_E)
-        st[1].write(f'dataset/MM_new_events_20160101-20211026/{year}/12/'+newfile_N)
-        st[2].write(f'dataset/MM_new_events_20160101-20211026/{year}/12/'+newfile_Z)  
-    except IncompleteRead:
+        st[0].write(f'../dataset/MM_events_20160101-20211026/{year}/12/'+newfile_E)
+        st[1].write(f'../dataset/MM_events_20160101-20211026/{year}/12/'+newfile_N)
+        st[2].write(f'../dataset/MM_events_20160101-20211026/{year}/12/'+newfile_Z)  
+    except:
         # Oh well, reconnect and keep trucking
         continue 
 

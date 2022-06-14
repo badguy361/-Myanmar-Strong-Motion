@@ -13,8 +13,8 @@ from obspy.io.sac import SACTrace
 
 # 輸入參數＆資料和輸出位置
 year = "2021" 
-mon = "05"
-num = 1
+mon = "5"
+num =1
 sac_path = f"/home/joey/緬甸/dataset/MM_events_20160101-20211026/{year}/{mon}/"
 asc_year_path = f"/home/joey/緬甸/output/{year}"
 asc_path = f"/home/joey/緬甸/output/{year}/{mon}/"
@@ -26,14 +26,15 @@ if not os.path.isdir(asc_path):
     os.mkdir(asc_path)
 
 # 讀入event catalog
-catlog = pd.read_csv("/home/joey/緬甸/merge_event_eq(add_cut_2021).csv")
+catlog = pd.read_csv("/home/joey/緬甸/merge_event_eq_cut.csv")
 
 # 改變當前路徑
 os.chdir(f"{sac_path}")
 
 # 讀入所有HNE的資料,主要是獲得檔名
-file_name = glob.glob("*HNE*.sac")
-
+# file_name = glob.glob("*HNE*.sac")
+file_name = catlog['file_name'][catlog['Year']==int(year)][catlog['Month']==int(mon)]
+file_name = list(file_name)
 # 確保檔案排序是依照年份排
 def TakeTime(file):
     return int(file.split("_")[3]),file.split("_")[1][0]
@@ -58,13 +59,13 @@ try:
         # 取得HNE HNN HNZ檔名
         HNE = i.split("_")[0]+"_"+i.split("_")[1]\
                 +"_"+"HNE"+"_"+i.split("_")[3]+"_"+\
-                i.split("_")[4]
+                i.split("_")[4]+"_"+i.split("_")[5]
         HNZ = i.split("_")[0]+"_"+i.split("_")[1]\
                 +"_"+"HNZ"+"_"+i.split("_")[3]+"_"+\
-                i.split("_")[4]
+                i.split("_")[4]+"_"+i.split("_")[5]
         HNN = i.split("_")[0]+"_"+i.split("_")[1]\
                 +"_"+"HNN"+"_"+i.split("_")[3]+"_"+\
-                i.split("_")[4]
+                i.split("_")[4]+"_"+i.split("_")[5]
         
         # 讀取sac檔（sac的指令）
         s = f"r {HNZ} \
@@ -144,14 +145,14 @@ finally: # 確保臨時中斷也能輸出
     # 存取result檔案
     df = pd.DataFrame.from_dict(result,orient='index')
     # 轉成csv並加在原有的後面
-    df.to_csv("result.csv",header=False,index=True,mode='a') 
-    df = pd.read_csv("result.csv",header=None)
+    df.to_csv("result_new_define.csv",header=False,index=True,mode='a') 
+    df = pd.read_csv("result_new_define.csv",header=None)
     # 保留最後的定義(防呆設計)
     df = df.drop_duplicates(subset=[0],keep='last', inplace=False)
     # 將資料做排序(防呆設計)
     df = df.sort_values(by=[0],ignore_index = True)
     # 重新存一次csv檔案
-    df.to_csv("result.csv",header=False,index=False,mode='w')
+    df.to_csv("result_new_define.csv",header=False,index=False,mode='w')
     print("finish output!!")
 
 # ############################# 清理用不到的asc #########################################################
