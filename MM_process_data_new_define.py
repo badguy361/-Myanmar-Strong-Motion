@@ -13,11 +13,11 @@ from obspy.io.sac import SACTrace
 
 # 輸入參數＆資料和輸出位置
 year = "2021" 
-mon = "5"
+mon = "05"
 num =1
-sac_path = f"/home/joey/緬甸/dataset/MM_events_20160101-20211026/{year}/{mon}/"
-asc_year_path = f"/home/joey/緬甸/output/{year}"
-asc_path = f"/home/joey/緬甸/output/{year}/{mon}/"
+sac_path = f"/app/{year}/{mon}/"
+asc_year_path = f"/app/output/{year}"
+asc_path = f"/app/output/{year}/{mon}/"
 
 # 創建資料夾
 if not os.path.isdir(asc_year_path):
@@ -26,7 +26,7 @@ if not os.path.isdir(asc_path):
     os.mkdir(asc_path)
 
 # 讀入event catalog
-catlog = pd.read_csv("/home/joey/緬甸/merge_event_eq_cut.csv")
+catlog = pd.read_csv("/app/merge_event_eq (isap91 arrival _ pick_result)_final.csv")
 
 # 改變當前路徑
 os.chdir(f"{sac_path}")
@@ -59,13 +59,16 @@ try:
         # 取得HNE HNN HNZ檔名
         HNE = i.split("_")[0]+"_"+i.split("_")[1]\
                 +"_"+"HNE"+"_"+i.split("_")[3]+"_"+\
-                i.split("_")[4]+"_"+i.split("_")[5]
+                i.split("_")[4]
+                # 這裡看一下之前的commit為了符合2021的資料有小修改一點
         HNZ = i.split("_")[0]+"_"+i.split("_")[1]\
                 +"_"+"HNZ"+"_"+i.split("_")[3]+"_"+\
-                i.split("_")[4]+"_"+i.split("_")[5]
+                i.split("_")[4]
+                # 這裡看一下之前的commit為了符合2021的資料有小修改一點
         HNN = i.split("_")[0]+"_"+i.split("_")[1]\
                 +"_"+"HNN"+"_"+i.split("_")[3]+"_"+\
-                i.split("_")[4]+"_"+i.split("_")[5]
+                i.split("_")[4]
+                # 這裡看一下之前的commit為了符合2021的資料有小修改一點
         
         # 讀取sac檔（sac的指令）
         s = f"r {HNZ} \
