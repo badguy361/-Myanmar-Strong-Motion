@@ -43,3 +43,5 @@
 
 * `split_data.py` : 將資料分門別類的檔案(已用 `find_data.py` 裡的功能取代)
 
+# 聯絡我
+如果有任何問題歡迎聯絡我 e-mail : t1616joy@yahoo.com.tw / t1616joey1@gmail.com
