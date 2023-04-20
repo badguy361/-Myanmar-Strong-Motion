@@ -14,7 +14,7 @@
 
 # 操作流程
 1. 環境問題，若已經是linux OS且 python 及 SAC 安裝完畢，可直接跳到步驟2即可。若是尚未設置好環境可參考本專案之dockerfile
-，於本地安裝docker完畢後(此處部贅述網上很多教學)，建置image後，即可依照指令將專案run起來，進到容器中即可開始操作。
+，於本地安裝docker完畢後(此處不贅述網上很多教學)，建置image後，即可依照指令將專案run起來，進到容器中即可開始操作。
 ```
 docker build -t mm_seismic .
 docker run -it -v 本機路徑:/app -d -p 80:5000 --name seis mm_seismic
