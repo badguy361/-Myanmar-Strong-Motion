@@ -86,10 +86,10 @@ models = ["ak135","iasp91","prem"]
 catlog = pd.read_csv("/home/joey/緬甸BH_ubuntu/merge_event_eq.csv")
 dif_P_ak = abs(catlog[f"{models[1]}_P_arrival"] - catlog[f"{models[0]}_P_arrival"])
 dif_S_ak = abs(catlog[f"{models[1]}_S_arrival"] - catlog[f"{models[0]}_S_arrival"])
-plt.scatter(np.arange(0,len(catlog[f"{models[1]}_P_arrival"])),dif_P_ak,label="ak135_P",s=2)
-plt.scatter(np.arange(0,len(catlog[f"{models[1]}_S_arrival"])),dif_S_ak,label="ak135_S",s=2)
+plt.scatter(np.arange(0,len(catlog[f"{models[1]}_P_arrival"])),dif_P_ak,label="P_residual",s=2)
+plt.scatter(np.arange(0,len(catlog[f"{models[1]}_S_arrival"])),dif_S_ak,label="S_residual",s=2)
 plt.legend()
-
+plt.savefig("/home/joey/Desktop/output.jpg",dpi=300)
 # dif_P_prem = abs(catlog[f"{models[1]}_P_arrival"] - catlog[f"{models[2]}_P_arrival"])
 # dif_S_prem = abs(catlog[f"{models[1]}_S_arrival"] - catlog[f"{models[2]}_S_arrival"])
 # plt.scatter(np.arange(0,len(catlog[f"{models[1]}_P_arrival"])),dif_P_prem,label="prem_P",s=2)

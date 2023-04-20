@@ -1,15 +1,27 @@
-# -Myanmar-Strong-Motion
-在使用obspy下載緬甸2016-2021的資料後可以用python調用SAC(地球物理處理資料的套件)對這些地震波進行處理，並透過後續的濾波、基線校正等流程計算出工程反映譜，後再經過RCTC可回歸出該區域的強地動衰減式(GMPE)。
+# 專案目的
+該專案為 2022 年初為批量化處理緬甸區域強地動資料而建構之系統，當中以Python為該系統核心語言，採用地震學處理套件 obspy 下載緬甸 2016-2021 的資料，並配合地震學常用地震處理工具SAC進行資料處理。從下載後的地震波波形檔中，取出確實存在的地震波，排除無法使用的波形。為避免有誤，因此有多人共同使用該系統，並將結果比較。
+
+該結果可透過後續的濾波、基線校正等流程計算出工程反映譜，再經過RCTC加上回歸模型，即可得出該區域的強地動衰減式(GMPE)。
+
+**然本專案著重在資料下載到資料處理結束。**
 
 # Datasets
-* event catalog.csv : obspy下載地震事件資料，但進行很多資料前處理，包括合併GCMT、吳老師地震資料，以及地震矩規模轉換，合併接收測站等等..如果需要這份catalog(2016-2021)，可以email: **t1616joy@yahoo.com.tw**
+* event catalog.csv : obspy下載地震事件紀錄，加上比對GCMT、吳老師地震資料後決定的focal type，及地震矩規模轉換，合併接收測站等等..若需要這份catalog(2016-2021)。email: **t1616joy@yahoo.com.tw**
 
-* SAC檔 : obspy下載的地震資料，訂好年份、經緯(minlat = 10 maxlat = 30 minlng = 90maxlng = 102)，並用 **iasp91速度構造** 模型預測P、S波到時，再以P波到時前50秒S波到時後300秒作為地震事件window的大小。(詳見 **find_data.py**)
+* SAC檔 : obspy下載之地震資料，訂好年份、經緯(minlat = 10 maxlat = 30 minlng = 90maxlng = 102)，並用 **iasp91速度構造** 模型預測P、S波到時，再以P波到時前50秒S波到時後300秒作為地震事件window的大小。(詳見 **find_data.py**)
 
 ![Imgur](https://i.imgur.com/vscBTzM.png)
 
-# Process (main code)
-設置好**SAC**及**catalog.csv**檔案位置，終端機執行 `python MM_process_data.py` 即可開始進行濾波，濾波方式就跟一般操作SAC下的ppk mode一模一樣。
+# 操作流程
+1. 環境問題，若已經是linux OS且 python 及 SAC 安裝完畢，可直接跳到步驟2即可。若是尚未設置好環境可參考本專案之dockerfile
+，於本地安裝docker完畢後(此處部贅述網上很多教學)，建置image後，即可依照指令將專案run起來，進到容器中即可開始操作。
+```
+docker build -t mm_seismic .
+docker run -it -v 本機路徑:/app -d -p 80:5000 --name seis mm_seismic
+docker exec -it mm_seismic bash
+```
+
+2. 設置好**SAC**及**catalog.csv**檔案位置，終端機執行 `python MM_process_data.py` 即可開始進行濾波，濾波方式就跟一般操作SAC下的ppk mode一樣。
 ![Imgur](https://i.imgur.com/noT7zu7.png)
 # Important code
 
@@ -26,7 +38,7 @@
 * `find_data.py` : 取得地震波資料，取得標準為P波預測到時前50秒S波預測到時候300秒，做為一筆地震的資料(此標準是經過測試所選定，*避免因為地震距離過遠而使得地震波被切掉*)。
 
 
-# Other code
+# Reference code
 
 
 * `sac_info_csv.py` : 取得地震測站的資訊(依照SAC檔案中的測站名而去抓)。
@@ -37,7 +49,9 @@
 
 * `CWB_process_data.py` : 氣象局的地震波行處理，之前用來確認由shell轉python沒問題的過度程式，但若後人有需求要用本檔案處理氣象局資料亦可參考此檔案。
 
-* `MM_BH_pick.sh` : 原本計畫使用shell操作picking程式，但後改用python，此檔案為改寫到一半的shell檔案。
+* `MM_BH_pick.sh` : 原本計畫使用shell操作picking程式，但後改用python，此檔案為原始shell檔案。
 
 * `split_data.py` : 將資料分門別類的檔案(已用 `find_data.py` 裡的功能取代)
 
+# 聯絡我
+如果有任何問題歡迎聯絡我 e-mail : t1616joy@yahoo.com.tw / t1616joey1@gmail.com
