@@ -22,12 +22,6 @@ for mon in ["01","02","03","04","05","06","07","08","09","10","11","12"]:
     sac_path = f"/home/joey/緬甸/dataset/MM_events_20160101-20211026/{year}/{mon}/"
     if not os.path.isdir(sac_path):
         os.mkdir(sac_path)
-# t1 = UTCDateTime(f"2016-{start_mon}-01T00:00:00")
-# t2 = UTCDateTime(f"2016-{end_mon}-01T00:00:00")
-# minlat = 10
-# maxlat = 30
-# minlng = 90
-# maxlng = 102
 client = Client("IRIS")
 
 # 用@backoff抓執行過程中遇到的錯誤，避免遇到exception直接跳掉
@@ -38,7 +32,6 @@ client = Client("IRIS")
 def donwloadWaveform(p_arrival,s_arrival,sta):
     return client.get_waveforms("MM", f"{sta}","*", "HN*", p_arrival-50, s_arrival+300,attach_response=True)
 
-# list(np.arange(1077,2138))
 for i in tqdm(range(4106,4107)):# merge_event_eq.csv -> event_id
     try:
         p_arrival = catlog["iasp91_P_arrival"][i] 

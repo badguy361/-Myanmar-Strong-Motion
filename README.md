@@ -37,6 +37,13 @@ docker exec -it mm_seismic bash
 
 * `find_data.py` : 取得地震波資料，取得標準為P波預測到時前50秒S波預測到時候300秒，做為一筆地震的資料(此標準是經過測試所選定，*避免因為地震距離過遠而使得地震波被切掉*)。
 
+# 新資料下載
+由於本案建置資料僅到2021/12，因此若後續需下載新資料，可參考以下步驟(具體步驟細節請聯繫作者)：
+1. 透過obspy下載地震事件csv catalog(可參考obspy_func.py)
+2. 透過get_iasp91.py得到預測到時
+3. 透過修改find_data.py下載所需地震波型
+4. 透過revise_sac.py下預測到時t1 t2時間
+5. 回到MM_process_data.py資料處理流程
 
 # Reference code
 

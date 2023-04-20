@@ -12,7 +12,7 @@ iasp91_P_arrival = []
 iasp91_S_arrival = []
 for i in tqdm(range(catlog.shape[0])):
     try:
-        model = TauPyModel(model='iasp91') #jb pwdk can run 
+        model = TauPyModel(model='iasp91') #jb pwdk can test 
         dist = kilometer2degrees(catlog["dist_surface"][i]) 
         depth = catlog["origins.depth"][i]/1000 
         arrivals = model.get_travel_times\
