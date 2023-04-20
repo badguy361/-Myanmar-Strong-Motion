@@ -9,7 +9,7 @@ import backoff
 import requests
 
 tt1 = UTCDateTime("2021-01-01T00:00:00")
-tt2 = UTCDateTime("2021-10-26T00:00:00")
+tt2 = UTCDateTime("2021-12-31T00:00:00")
 minlat = 10
 maxlat = 30
 minlng = 90
@@ -18,7 +18,7 @@ counts = 0
 client = Client("IRIS")
 
 #抓地震事件
-cats = client.get_events(starttime=tt1, endtime=tt2, minmagnitude=4, minlatitude=minlat, maxlatitude=maxlat, minlongitude=minlng, maxlongitude=maxlng)
+cats = client.get_events(starttime=tt1, endtime=tt2, minmagnitude=5.5, minlatitude=minlat, maxlatitude=maxlat, minlongitude=minlng, maxlongitude=maxlng)
 
 #跑迴圈列出每個event的屬性
 for cat in cats:
@@ -42,8 +42,8 @@ import backoff
 import requests
 
 #抓取events的初始設定
-t1 = UTCDateTime("2016-01-01T00:00:00")
-t2 = UTCDateTime("2021-10-26T00:00:00")
+t1 = UTCDateTime("2021-01-01T00:00:00")
+t2 = UTCDateTime("2021-12-31T00:00:00")
 minlat = 10
 maxlat = 30
 minlng = 90
@@ -58,7 +58,7 @@ client = Client("IRIS")
                     (requests.exceptions.Timeout,
                     requests.exceptions.ConnectionError))
 def donwloadWaveform(t1):
-    return client.get_waveforms("MM", "*","*", "H*", t1, t1+360,attach_response=True)
+    return client.get_waveforms("MM", "*","*", "HN*", t1, t1+360,attach_response=True)
 # p_arrival-20 s_arrival+120
 
 #用@backoff抓執行過程中遇到的錯誤，避免遇到exception直接跳掉
@@ -66,7 +66,7 @@ def donwloadWaveform(t1):
 @backoff.on_exception(backoff.expo,
                     requests.exceptions.ConnectionError)
 def donwloadEventList(t1, t2, minlat, maxlat, minlng, maxlng):
-    return client.get_events(starttime=t1, endtime=t2, minmagnitude=4, minlatitude=minlat, maxlatitude=maxlat, minlongitude=minlng, maxlongitude=maxlng)
+    return client.get_events(starttime=t1, endtime=t2, minmagnitude=5.5, minlatitude=minlat, maxlatitude=maxlat, minlongitude=minlng, maxlongitude=maxlng)
 
 #抓事件列表
 cats = donwloadEventList(t1, t2, minlat, maxlat, minlng, maxlng)
